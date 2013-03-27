@@ -4,6 +4,8 @@
 **/
 $fin = 'obst.csv';
 $fout = 'obst.js';
+//$fin = 'FME_BaumdatenBearbeitet_OGD.csv';
+//$fout = 'alle.js';
 
 /* http://sourceforge.net/projects/proj4php/ */
 include_once("proj4php/proj4php.php");
@@ -44,9 +46,9 @@ function file_get_contents_utf8($fn) {
 /* Convert Transverse Mercator Projection to Longitude/Latitude using library proj4php */
 function tmerc2wgs84($xpos, $ypos) {
 	$proj4 = new Proj4php();
-	// EPSG:31258 http://spatialreference.org/ref/epsg/31258/
+	// EPSG:31255 http://spatialreference.org/ref/epsg/31255/proj4js/
 	// had to change x correction to: x_0=0
-	$projTMERC = new Proj4phpProj('EPSG:312580',$proj4);
+	$projTMERC = new Proj4phpProj('EPSG:31255',$proj4);
 	$projWGS84 = new Proj4phpProj('EPSG:4326',$proj4);
 
 	$pointSrc = new proj4phpPoint($xpos,$ypos);
