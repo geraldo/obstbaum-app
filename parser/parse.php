@@ -21,14 +21,19 @@ $lines = file($fin);
 foreach ($lines as $n => $line) {
 	if ($n > 0) {
 		$tokens = explode(';',$line);
+		$gattung = trim($tokens[2]);
+		$art = trim($tokens[3]);
 		$title = trim($tokens[5]);
+		$hoehe = trim($tokens[6]);
+		$schirm = trim($tokens[7]);
+		$stamm = trim($tokens[8]);
 		$lat = trim($tokens[10]);
 		$long = trim($tokens[11]);
 		$point = tmerc2wgs84($lat,$long);
 		$lat = $point->x;
 		$long = $point->y;
 		//echo "<p>".htmlentities($title)." [".$long."/".$lat."]</p>";
-		fwrite($foutput, "['".$title."', ".$long.", ".$lat."],".PHP_EOL);
+		fwrite($foutput, "['".$title."', ".$long.", ".$lat.", '".$gattung."', '".$art."', ".$hoehe.", ".$schirm.", ".$stamm."],".PHP_EOL);
 	}
 }
 echo $n." datasets written to geojson file";
