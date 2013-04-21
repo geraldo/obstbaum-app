@@ -2,7 +2,7 @@
 /*
  * Read csv file and write content to geojson file
 **/
-$fin = 'obst.csv';
+$fin = 'Baumdatenfertig.csv';
 $fout = 'obst.js';
 //$fin = 'FME_BaumdatenBearbeitet_OGD.csv';
 //$fout = 'alle.js';
@@ -16,24 +16,30 @@ $foutput = fopen($fout, 'w');
 fwrite($foutput, 'var obstPoints = ['.PHP_EOL);
 
 //open .csv file and read line by line
-//format: Fläche;BaumNr;Gattung;Art;Sorte;NameDeutsch;Höhe;Schirmdurchmesser;Stammumfang;Typ;XPos;YPos
+//format: Fläche;BaumNr;Gattung;Art;Sorte;NameDeutsch;Höhe;Schirmdurchmesser;Stammumfang;Typ;XPos;YPos;Kategorie;Reifvon;Reifbis
 $lines = file($fin);
 foreach ($lines as $n => $line) {
 	if ($n > 0) {
 		$tokens = explode(';',$line);
 		$gattung = trim($tokens[2]);
 		$art = trim($tokens[3]);
+		if ($art == '.') $art = '';
+		$sorte = trim($tokens[4]);
+		if ($sorte == '.') $sorte = '';
 		$title = trim($tokens[5]);
 		$hoehe = trim($tokens[6]);
 		$schirm = trim($tokens[7]);
 		$stamm = trim($tokens[8]);
 		$lat = trim($tokens[10]);
 		$long = trim($tokens[11]);
+		$kat = trim($tokens[12]);
+		$date1 = trim($tokens[13]);
+		$date2 = trim($tokens[14]);
 		$point = tmerc2wgs84($lat,$long);
 		$lat = $point->x;
 		$long = $point->y;
 		//echo "<p>".htmlentities($title)." [".$long."/".$lat."]</p>";
-		fwrite($foutput, "['".$title."', ".$long.", ".$lat.", '".$gattung."', '".$art."', ".$hoehe.", ".$schirm.", ".$stamm."],".PHP_EOL);
+		fwrite($foutput, "[".$n.", '".$title."', ".$long.", ".$lat.", '".$gattung."', '".$art."', '".$sorte."', ".$hoehe.", ".$schirm.", ".$stamm.", '".$kat."', '".$date1."', '".$date2."'],".PHP_EOL);
 	}
 }
 echo $n." datasets written to geojson file";
