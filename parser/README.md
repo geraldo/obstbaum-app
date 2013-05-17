@@ -3,7 +3,7 @@ obstbaum-app: Parser
 
 Diese PHP-Script parst eine CSV Datei im folgenden Format: 
 
-_Fläche;BaumNr;Gattung;Art;Sorte;NameDeutsch;Höhe;Schirmdurchmesser;Stammumfang;Typ;XPos;YPos;Kategorie;Reifvon;Reifbis
+`Fläche;BaumNr;Gattung;Art;Sorte;NameDeutsch;Höhe;Schirmdurchmesser;Stammumfang;Typ;XPos;YPos;Kategorie;Reifvon;Reifbis`
 
 Das Ergebnis wird als geojson Datei in folgendem Format gespeichert:
 
@@ -12,6 +12,10 @@ Das Ergebnis wird als geojson Datei in folgendem Format gespeichert:
 ]`
 
 Die Koordinaten der Originaldaten sind im in Österreich gängigen Koordinatensystem GK M31 (EPSG 31255). Das Ausgangsformat sind Geographische Länge und Breite in Dezimalschreibweise. Zur Umrechnung wird die auf [proj4js](http://proj4js.org/) basierende PHP Bibliothek [proj4php](http://proj4php.sourceforge.net/) verwendet.
+
+## Datenquelle
+
+Datenquelle: [CC-BY-3.0](http://creativecommons.org/licenses/by/3.0/at/): Stadt Linz - [data.linz.gv.at](http://www.data.linz.gv.at/nutzungsbedingungen/)
 
 ## Lizenz
 
