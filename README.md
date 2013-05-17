@@ -25,4 +25,4 @@ Funktionalitäten von “Linz Pflückt”:
 
 ## Lizenz
 
-obstbaum-app ist freie Software und steht (soweit nicht anders angegeben da auf anderen Lizenzen basierend) unter der [GPL license](gpl-3.0.txt).
+obstbaum-app ist freie Software und steht (soweit in den enthaltenen Paketen nicht anders angegeben) unter der [GPL Lizenz](gpl-3.0.txt).

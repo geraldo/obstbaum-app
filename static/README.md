@@ -9,4 +9,4 @@ Kartendarstellung © [CloudMade](http://cloudmade.com/) unter Verwendung von [Le
 
 ## Lizenz
 
-obstbaum-app ist freie Software und steht unter der [GPL license](gpl-3.0.txt).
+obstbaum-app Paket "static" ist freie Software und steht (soweit in den enthaltenen Paketen nicht anders angegeben) unter der [GPL Lizenz](gpl-3.0.txt).
