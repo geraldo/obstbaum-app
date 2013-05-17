@@ -9,4 +9,4 @@ Um das Thema in Wordpress zu installieren brauchst du noch zusätzlich das [stat
 
 ## Lizenz
 
-obstbaum-app ist freie Software und steht unter der [GPL license](gpl-3.0.txt).
+obstbaum-app ist freie Software und steht unter der [GPL license](license.txt).
