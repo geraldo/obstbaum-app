@@ -1,0 +1,10 @@
+.profile-php .show-admin-bar, .profile-php label[for=aim], .profile-php #aim, .profile-php label[for=yim], .profile-php #yim, .profile-php label[for=jabber], .profile-php #jabber {
+	display:none;
+}
+
+/*
+.form-table:nth-of-type(1) {
+	display:none;
+}
+*/
+
