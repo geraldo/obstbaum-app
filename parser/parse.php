@@ -2,9 +2,9 @@
 /*
  * Read csv file and write content to geojson file
 **/
-$fin = 'Baumdatenfertig.csv';
+$fin = 'baeume-obst.csv';
 $fout = 'obst.js';
-//$fin = 'FME_BaumdatenBearbeitet_OGD.csv';
+//$fin = 'baeume-alle.csv';
 //$fout = 'alle.js';
 
 /* http://sourceforge.net/projects/proj4php/ */
@@ -38,21 +38,20 @@ foreach ($lines as $n => $line) {
 		$point = tmerc2wgs84($lat,$long);
 		$lat = $point->x;
 		$long = $point->y;
+
 		//echo "<p>".htmlentities($title)." [".$long."/".$lat."]</p>";
-		fwrite($foutput, "[".$n.", '".$title."', ".$long.", ".$lat.", '".$gattung."', '".$art."', '".$sorte."', ".$hoehe.", ".$schirm.", ".$stamm.", '".$kat."', '".$date1."', '".$date2."'],".PHP_EOL);
+
+		// long version for static map
+		//fwrite($foutput, "[".$n.", '".$title."', ".$long.", ".$lat.", '".$gattung."', '".$art."', '".$sorte."', ".$hoehe.", ".$schirm.", ".$stamm.", '".$kat."', '".$date1."', '".$date2."'],".PHP_EOL);	//extended version with all data for static map
+
+		//short version for wordpress map
+		fwrite($foutput, "[".$n.", '".$title."', ".$long.", ".$lat.", '".$kat."'],".PHP_EOL);	
 	}
 }
 echo $n." datasets written to geojson file";
 
 //stop to wrtie geojson file
 fwrite($foutput, '];'.PHP_EOL);
-
-/* Fix issue reading a URL with a non-UTF-8 encoding that is later displayed improperly since file_get_contents() related to it as UTF-8 */
-function file_get_contents_utf8($fn) {
-     $content = file_get_contents($fn);
-      return mb_convert_encoding($content, 'UTF-8',
-          mb_detect_encoding($content, 'UTF-8, ISO-8859-1', true));
-}
 
 /* Convert Transverse Mercator Projection to Longitude/Latitude using library proj4php */
 function tmerc2wgs84($xpos, $ypos) {
