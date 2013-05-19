@@ -45,7 +45,7 @@ function getReife($date) {
 				   echo wp_get_attachment_image( $attachment->ID, 'thumbnail', false, array(
 						'title'	=> apply_filters( 'the_title', $attachment->post_title ),
 						'class'	=> "attachment-thumbnail",
-						'alt'   => trim(strip_tags( get_post_meta($attachment_id, '_wp_attachment_image_alt', true) )),
+						'alt'   => trim(strip_tags( get_post_meta($attachment->ID, '_wp_attachment_image_alt', true) )),
 					));
 				  }
 				echo '</div>';

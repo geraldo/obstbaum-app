@@ -43,16 +43,15 @@
 				$tags_list = get_the_tag_list( '', __( ', ', 'obst' ) );
 				if ( $tags_list ) :
 			?>
-			<span class="sep"> | </span>
 			<span class="tags-links">
-				<?php printf( __( 'Tagged %1$s', 'obst' ), $tags_list ); ?>
+				<?php printf( __( 'Tags: %1$s', 'obst' ), $tags_list ); ?>
 			</span>
 			<?php endif; // End if $tags_list ?>
 		<?php endif; // End if 'post' == get_post_type() ?>
 
 		<?php if ( ! post_password_required() && ( comments_open() || '0' != get_comments_number() ) ) : ?>
 		<span class="sep"> | </span>
-		<span class="comments-link"><?php comments_popup_link( __( 'Leave a comment', 'obst' ), __( '1 Comment', 'obst' ), __( '% Comments', 'obst' ) ); ?></span>
+		<span class="comments-link"><?php comments_popup_link( __( 'Hinterlasse eine Antwort', 'obst' ), __( '1 Kommentar', 'obst' ), __( '% Kommentare', 'obst' ) ); ?></span>
 		<?php endif; ?>
 
 		<?php edit_post_link( __( 'Edit', 'obst' ), '<span class="sep"> | </span><span class="edit-link">', '</span>' ); ?>
