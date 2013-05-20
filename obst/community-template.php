@@ -11,7 +11,7 @@ get_header(); ?>
 		<div id="content" class="site-content" role="main">
 		<a class="close-button" href="<?php echo esc_url( home_url( '/' ) ); ?>">×</a>
 
-			<h3>Beste Früchte</h3>
+			<h3><a name="beste-fruechte">Beste Früchte</a></h3>
 			<?php 
 				wp_gdsr_render_rating_results(array('template_id' => 48, 'select' => 'baum', 'rows' => 10, 'min_votes' => 1));
 			?>
@@ -25,9 +25,9 @@ get_header(); ?>
 				wp_reset_query();*/
 			?>
 
-			<h3>Aktivste Benutzer</h3>
+			<h3><a name="aktivste-benutzer">Aktivste Benutzer</a></h3>
 			<?php 
-				$query = "SELECT COUNT(comment_author) AS comment_comments, comment_author, comment_author_url, user_id FROM $wpdb->comments GROUP BY comment_author ORDER BY comment_comments DESC LIMIT 10";
+				$query = "SELECT COUNT(comment_author) AS comment_comments, comment_author, comment_author_url, user_id FROM $wpdb->comments WHERE comment_approved='1' GROUP BY comment_author ORDER BY comment_comments DESC LIMIT 10";
 				$authors = $wpdb->get_results($query);
 
 				if ($authors) {
@@ -65,7 +65,7 @@ get_header(); ?>
 				//count_comment_images();
 			?>
 
-			<h3>Aktivste Bäume</h3>
+			<h3><a name="aktivste-baeume">Aktivste Bäume</a></h3>
 			<?php 
 				$query = "SELECT ID,post_title,comment_count FROM $wpdb->posts WHERE post_type='baum' AND comment_count<>0 ORDER BY comment_count DESC LIMIT 10";
 				$baeume = $wpdb->get_results($query);
@@ -102,12 +102,16 @@ get_header(); ?>
 				}
 			?>
 
-			<h3>Neueste Kommentare</h3>
+			<h3><a name="kommentare">Neueste Kommentare</a></h3>
 			<ol>
 			<?php 
-				$comments = get_comments('number=10');
+				$args = array(
+					'status' => 'approve',
+					'number' => '10'
+				);
+				$comments = get_comments($args);
 				foreach($comments as $comment) :
-					echo '<li>';
+					echo '<li class="new_comment">';
 					$baum = get_post($comment->comment_post_ID);
 					//comment image
 					$args = array(
@@ -138,7 +142,7 @@ get_header(); ?>
 			?>
 			</ol>
 
-			<h3>Neueste Benutzer</h3>
+			<h3><a name="neueste-benutzer">Neueste Benutzer</a></h3>
 			<ol>
 			<?php
 				$blogusers = get_users('blog_id=1&orderby=ID&order=DESC&role=subscriber&number=10');
