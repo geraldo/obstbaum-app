@@ -11,8 +11,9 @@ jQuery(document).ready(function($) {
 	});
 
     var $mainContent = $("#primary"),
-    siteUrl = "http://" + top.location.host.toString(),
+    siteUrl = top.location.protocol.toString() + "//" + top.location.host.toString(),
     url = '';
+console.log(siteUrl);
 	$(document).on("click", "a[href^='"+siteUrl+"']:not([href*='/wp-admin/']):not([href*='/wp-login.php']):not([href$='/feed/'])", function() {
 		if ($.browser.msie && $.browser.version != 10.0) {
 			var myie = "/" + this.pathname;

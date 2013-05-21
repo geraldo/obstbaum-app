@@ -114,20 +114,23 @@ get_header(); ?>
 					echo '<li class="new_comment">';
 					$baum = get_post($comment->comment_post_ID);
 					//comment image
-					$args = array(
-					   'post_type' => 'attachment',
-					   'numberposts' => 1,
-					   'post_status' => null,
-					   'post_parent' => $baum->ID,
-					   'author' => $comment->user_id
-					  );
-					$img = get_posts( $args );
-					if ($img) {
-						echo wp_get_attachment_image( $img[0]->ID, 'thumbnail', false, array(
-							'title'	=> apply_filters( 'the_title', $img[0]->post_title ),
-							'class'	=> "attachment-thumbnail alignright",
-							'alt'   => trim(strip_tags( get_post_meta($img[0]->ID, '_wp_attachment_image_alt', true) )),
-						));
+					$images = get_comment_meta($comment->comment_ID, 'comment_image');
+					if ($images) {
+						$args = array(
+						   'post_type' => 'attachment',
+						   'numberposts' => -1,
+						   'post_status' => null,
+						   'post_parent' => $baum->ID,
+						   'author' => $comment->user_id
+						  );
+						$img = get_posts( $args );
+						if ($img) {
+							echo wp_get_attachment_image( $img[0]->ID, 'thumbnail', false, array(
+								'title'	=> apply_filters( 'the_title', $img[0]->post_title ),
+								'class'	=> "attachment-thumbnail alignright",
+								'alt'   => trim(strip_tags( get_post_meta($img[0]->ID, '_wp_attachment_image_alt', true) )),
+							));
+						}
 					}
 					//comment
 					echo get_avatar( $comment, 40 );
