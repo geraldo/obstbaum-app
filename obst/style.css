@@ -449,11 +449,13 @@ a:active {
 	display: inline;
 	float: left;
 	margin-right: 1.5em;
+	margin-bottom: 5px;
 }
 .alignright {
 	display: inline;
 	float: right;
 	margin-left: 1.5em;
+	margin-bottom: 5px;
 }
 .aligncenter {
 	clear: both;
