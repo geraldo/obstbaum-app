@@ -4,7 +4,10 @@
 
 	//Get the WP-specifics, so that we can use constants and what not
 	//$home_dir = preg_replace('^wp-content/themes/[a-z0-9\-/]+^', '', getcwd());
-	include('/var/www/obst/wp-load.php');
+	//include($home_dir . 'wp-load.php');
+	//include('/home/geraldko/public_html/obst/wp-load.php');
+	include('/var/www/vhosts/linzwiki.at/obst/wp-load.php');
+	//include('/var/www/obst/wp-load.php');
 ?>
 
 var map, markers, markersArray, catApfel, catBirne, catKastanie, catKirsche, catNuesse, catZwetschke, catSonstiges;
@@ -82,22 +85,35 @@ function loadMap() {
 	<?php 
 		$ratings = 'var ratings=[';
 		$comments = 'var comments=[';
+		$fotos = 'var fotos=[';
 
 		for ($i=0; $i<wp_count_posts('baum')->publish; $i++) {
-			$id = $i+900;
+			$id = $i+900;	//wordpress offset
 			if (function_exists("wp_gdsr_rating_article")) {
 				if ($i>0) $ratings .= ',';
 				$ratings .= wp_gdsr_rating_article($id)->rating;
 			}
 			if ($i>0) $comments .= ',';
 			$comments .= get_post($id)->comment_count;
+
+			//count fotos
+			$coms = get_comments(array('post_id' => $id));
+			$numFotos = 0;
+			foreach ($coms as $com) {
+				$images = get_comment_meta($com->comment_ID, 'comment_image', true);
+				if ($images) $numFotos++;
+			}
+			if ($i > 0) $fotos .= ',';
+			$fotos .= $numFotos;
 		}
 
 		$ratings .= "];";
 		$comments .= "];";
+		$fotos .= "];";
 
 		echo $ratings.PHP_EOL;
 		echo $comments.PHP_EOL;
+		echo $fotos.PHP_EOL;
 	?>
 
 	map = new L.Map('map', {center: latlng, zoom: 13, layers: [cloudmade], attributionControl: false});
@@ -129,7 +145,9 @@ function loadMap() {
 		var rating = 120 / 5 * ratings[i]; 
 		if ( comments[i] == 1) var comment = "Kommentar";
 		else var comment = "Kommentare";
-		marker.bindPopup("<b>"+a[1]+"</b><br><br><div style='text-align:left; padding: 0; margin: 0; background: url(http://obst.linzwiki.at/wp-content/plugins/gd-star-rating/stars/oxygen/stars24.png); height: 24px; width: 120px;'><div style='background: url(http://obst.linzwiki.at/wp-content/plugins/gd-star-rating/stars/oxygen/stars24.png) bottom left; padding: 0; margin: 0; height: 24px; width: "+rating+"px;'></div></div><br>"+comments[i]+" "+comment+"<br><br><a href='/#/baum/"+a[0]+"'>Details anzeigen</a>");
+		if ( fotos[i] == 1) var foto = "Foto";
+		else var foto = "Fotos";
+		marker.bindPopup("<b>"+a[1]+"</b> (Baum "+a[0]+")<br><br><div style='text-align:left; padding: 0; margin: 0; background: url(http://obst.linzwiki.at/wp-content/plugins/gd-star-rating/stars/oxygen/stars24.png); height: 24px; width: 120px;'><div style='background: url(http://obst.linzwiki.at/wp-content/plugins/gd-star-rating/stars/oxygen/stars24.png) bottom left; padding: 0; margin: 0; height: 24px; width: "+rating+"px;'></div></div><br>"+comments[i]+" "+comment+", "+fotos[i]+" "+foto+"<br><br><a href='/#/baum/"+a[0]+"'>Details anzeigen</a>");
 		markersArray.push(marker);
 
 		if (cat=='Apfel') catApfel.addLayer(marker);
