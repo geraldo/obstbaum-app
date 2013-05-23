@@ -111,7 +111,7 @@ a img {
 #masthead {
     top: 0;
     position: fixed;
-	z-index: 1;
+	z-index: 3;
 	width: 100%;
 	background: #ABD751;
 }
