@@ -28,7 +28,8 @@ function getReife($date) {
 
 <article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
 	<header class="entry-header">
-		<h1 class="entry-title"><?php the_title(); ?></h1>
+
+		<h1 class="entry-title">Baum <?php $id_value = get_post_meta(get_the_ID(), 'baumid', true); echo $id_value.": "; the_title(); ?></h1>
 
 		<?php
 		 $args = array(
@@ -102,7 +103,6 @@ function getReife($date) {
 			echo '<br /><p>Koordinaten:';
 			$lat_value = get_post_meta(get_the_ID(), 'lat', true);
 			$long_value = get_post_meta(get_the_ID(), 'long', true);
-			$id_value = get_post_meta(get_the_ID(), 'baumid', true);
 			$id_value2 = $id_value - 1;
 			if($lat_value != '' && $long_value != '') echo ' N ' . round($lat_value,5) . ' E ' . round($long_value,5);
 			echo ' <a class="abutton" href="'.esc_url( home_url( '/' ) ).'" onclick="map.setView(new L.LatLng('.$lat_value.','.$long_value.'), 18, false);map.on(\'zoomend\', function(e) {markersArray['.$id_value2.'].openPopup()});">Zeige Baum '.$id_value.'</a></p>';

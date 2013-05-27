@@ -216,6 +216,15 @@ a.abutton:hover {
 	clear:right;
 }
 
+.ui-widget-header {
+	background-color:#CCC;
+	border:none;
+}
+
+.ui-tabs-active a {
+	font-weight:bold;
+}
+
 /* =Global
 ----------------------------------------------- */
 

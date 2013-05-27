@@ -36,7 +36,11 @@ jQuery(document).ready(function($) {
 		$mainContent.animate({opacity: "0.1"}).html('<img style="padding:20px;" src="http://linz.pflueckt.at/wp-content/themes/obst/images/ajax-loader.gif" />').load(url, function() {
 			$mainContent.animate({opacity: "1"});
 			//rebind when loaded!
+
+			//rating
 			$(".gdsr_rating_as > a").on("click", function(){gdsr_rating_standard(this)});
+
+			//cycle
 			if ($("#rotator").children().length) {
 				$("#rotator").cycle({ 
 					fx: "fade",
@@ -46,6 +50,9 @@ jQuery(document).ready(function($) {
 					fit: 1
 				});
 			}
+
+			//tabs
+			$("#tabs").tabs();
 		});
     });
     $(window).trigger('hashchange');

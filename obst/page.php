@@ -31,4 +31,10 @@ get_header(); ?>
 		</div><!-- #content -->
 	</div><!-- #primary -->
 
+<script type="text/javascript">
+	jQuery(document).ready(function($) {
+		$("#tabs").tabs();
+	});
+</script>
+
 <?php get_footer(); ?>
