@@ -57,7 +57,6 @@ get_header(); ?>
 						}
 						echo '</ol>';
 					}
-					//count_comment_images();
 				?>
 
 				<h3><a name="neueste-benutzer">Neueste PfückerInnen</a></h3>
@@ -85,7 +84,7 @@ get_header(); ?>
 						foreach ($baeume as $baum) {
 							$id = $baum->ID-899;
 							//count comments
-							echo '<li><a href="'.esc_url( home_url( '/' ) ).'baum/'.$id.'">Baum '.$id.'</a> ('.$baum->post_title.'): ';
+							echo '<li><a href="'.esc_url( home_url( '/' ) ).'baum/'.$id.'">'.$baum->post_title.'</a> [#'.$id.']: ';
 							echo $baum->comment_count.' Kommentar';
 							echo ($baum->comment_count<>1) ? 'e' : '';
 
@@ -175,8 +174,8 @@ get_header(); ?>
 						echo ' sagt am ';
 						echo date(" j.n.Y", strtotime($comment->comment_date_gmt));
 						echo ' über ';
-						echo '<a href="'.esc_url( home_url( '/' ) ).'baum/'.$baum->post_name.'">Baum '.$baum->post_name.'</a> ('.$baum->post_title.')';
-						echo '<br />'.strip_tags($comment->comment_content);
+						echo '<a href="'.esc_url( home_url( '/' ) ).'baum/'.$baum->post_name.'">'.$baum->post_title.'</a> [#'.$baum->post_name.']';
+						echo '<br />'.apply_filters('the_content', $comment->comment_content);
 						echo '</li>';
 					endforeach;
 				?>

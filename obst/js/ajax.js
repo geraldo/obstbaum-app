@@ -13,7 +13,7 @@ jQuery(document).ready(function($) {
     var $mainContent = $("#primary"),
     siteUrl = top.location.protocol.toString() + "//" + top.location.host.toString(),
     url = '';
-	$(document).on("click", "a[href^='"+siteUrl+"']:not([href*='/wp-admin/']):not([href*='/wp-login.php']):not([href$='/feed/'])", function() {
+	$(document).on("click", "a[href^='"+siteUrl+"']:not([href*='/wp-admin/']):not([href*='/wp-login.php']):not([href$='/feed/']):not([href$='/wp-content/uploads/']):not([href$='/wp-content/plugins/'])", function() {
 		if ($.browser.msie && $.browser.version != 10.0) {
 			var myie = "/" + this.pathname;
 			location.hash = myie;
