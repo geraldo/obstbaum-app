@@ -84,7 +84,7 @@ get_header(); ?>
 						foreach ($baeume as $baum) {
 							$id = $baum->ID-899;
 							//count comments
-							echo '<li><a href="'.esc_url( home_url( '/' ) ).'baum/'.$id.'">'.$baum->post_title.'</a> [#'.$id.']: ';
+							echo '<li>'.$baum->post_title.' [<a href="'.esc_url( home_url( '/' ) ).'baum/'.$id.'">#'.$id.'</a>]: ';
 							echo $baum->comment_count.' Kommentar';
 							echo ($baum->comment_count<>1) ? 'e' : '';
 
@@ -170,12 +170,13 @@ get_header(); ?>
 						}
 						//comment
 						echo get_avatar( $comment, 40 );
+						echo '<em>';
 						show_user($comment->comment_author, $comment->comment_author_url);
-						echo ' sagt am ';
+						echo '</em> sagt am ';
 						echo date(" j.n.Y", strtotime($comment->comment_date_gmt));
-						echo ' über ';
-						echo '<a href="'.esc_url( home_url( '/' ) ).'baum/'.$baum->post_name.'">'.$baum->post_title.'</a> [#'.$baum->post_name.']';
-						echo '<br />'.apply_filters('the_content', $comment->comment_content);
+						echo ' über <em>';
+						echo $baum->post_title.' [<a href="'.esc_url( home_url( '/' ) ).'baum/'.$baum->post_name.'">#'.$baum->post_name.'</a>]';
+						echo '</em><br />'.apply_filters('the_content', $comment->comment_content);
 						echo '</li>';
 					endforeach;
 				?>
