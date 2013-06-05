@@ -126,8 +126,8 @@ a img {
 #primary {
 	position: absolute;
 	top: 50px;
-	left:100px;
-	width: 600px;
+	left:50px;
+	width: 750px;
 	height:auto;
 	z-index: 2;
 	background: #fff;
@@ -197,7 +197,7 @@ a.abutton {
     cursor: pointer;
     font-size: 12px;
     line-height: 1;
-    padding: 0.6em 1em 0.4em;
+    padding: 0.2em 0.5em;
     text-shadow: 0 1px 0 rgba(255, 255, 255, 0.8);
 	text-decoration:none;
 }
@@ -359,7 +359,8 @@ input {
 button,
 html input[type="button"],
 input[type="reset"],
-input[type="submit"] {
+input[type="submit"],
+input[type="file"] {
 	border: 1px solid #ccc;
 	border-color: #ccc #ccc #bbb #ccc;
 	border-radius: 3px;
@@ -377,7 +378,8 @@ input[type="submit"] {
 button:hover,
 html input[type="button"]:hover,
 input[type="reset"]:hover,
-input[type="submit"]:hover {
+input[type="submit"]:hover,
+input[type="file"]:hover {
 	border-color: #ccc #bbb #aaa #bbb;
 	box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.8), inset 0 15px 17px rgba(255, 255, 255, 0.8), inset 0 -5px 12px rgba(0, 0, 0, 0.02);
 }
@@ -385,10 +387,12 @@ button:focus,
 html input[type="button"]:focus,
 input[type="reset"]:focus,
 input[type="submit"]:focus,
+input[type="file"]:focus,
 button:active,
 html input[type="button"]:active,
 input[type="reset"]:active,
-input[type="submit"]:active {
+input[type="submit"]:active,
+input[type="file"]:active {
 	border-color: #aaa #bbb #bbb #bbb;
 	box-shadow: inset 0 -1px 0 rgba(255, 255, 255, 0.5), inset 0 2px 5px rgba(0, 0, 0, 0.15);
 }
@@ -438,6 +442,10 @@ textarea {
 	padding-left: 3px;
 	vertical-align: top; /* Improves readability and alignment in all browsers */
 	width: 98%;
+}
+
+#commentform input[type="submit"] {
+	font-weight:bold;
 }
 
 /* Links */
