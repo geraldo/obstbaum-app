@@ -16,12 +16,12 @@ get_header(); ?>
 				<p>Welche Bäume sollen angezeigt werden?</p>
 				<br />
 				<form id="filter">
-				<p><input type="checkbox" checked="checked" value="Apfel" onchange="jQuery(function($){var cats=new Array();$('input:checked:not(input[value=Keine]):not(input[value=Alle])').each(function(){cats.push($(this).val());});showLayers(cats);});" /> Apfel</p>
-				<p><input type="checkbox" checked="checked" value="Birne" onchange="jQuery(function($){var cats=new Array();$('input:checked:not(input[value=Keine]):not(input[value=Alle])').each(function(){cats.push($(this).val());});showLayers(cats);});" /> Birne</p>
-				<p><input type="checkbox" checked="checked" value="Kastanie" onchange="jQuery(function($){var cats=new Array();$('input:checked:not(input[value=Keine]):not(input[value=Alle])').each(function(){cats.push($(this).val());});showLayers(cats);});" /> Edelkastanie</p>
-				<p><input type="checkbox" checked="checked" value="Kirsche" onchange="jQuery(function($){var cats=new Array();$('input:checked:not(input[value=Keine]):not(input[value=Alle])').each(function(){cats.push($(this).val());});showLayers(cats);});" /> Kirsche</p>
+				<p><input type="checkbox" checked="checked" value="Apfel" onchange="jQuery(function($){var cats=new Array();$('input:checked:not(input[value=Keine]):not(input[value=Alle])').each(function(){cats.push($(this).val());});showLayers(cats);});" /> Äpfel</p>
+				<p><input type="checkbox" checked="checked" value="Birne" onchange="jQuery(function($){var cats=new Array();$('input:checked:not(input[value=Keine]):not(input[value=Alle])').each(function(){cats.push($(this).val());});showLayers(cats);});" /> Birnen</p>
+				<p><input type="checkbox" checked="checked" value="Kastanie" onchange="jQuery(function($){var cats=new Array();$('input:checked:not(input[value=Keine]):not(input[value=Alle])').each(function(){cats.push($(this).val());});showLayers(cats);});" /> Edelkastanien</p>
+				<p><input type="checkbox" checked="checked" value="Kirsche" onchange="jQuery(function($){var cats=new Array();$('input:checked:not(input[value=Keine]):not(input[value=Alle])').each(function(){cats.push($(this).val());});showLayers(cats);});" /> Kirschen</p>
 				<p><input type="checkbox" checked="checked" value="Nuesse" onchange="jQuery(function($){var cats=new Array();$('input:checked:not(input[value=Keine]):not(input[value=Alle])').each(function(){cats.push($(this).val());});showLayers(cats);});" /> Nüsse</p>
-				<p><input type="checkbox" checked="checked" value="Zwetschke" onchange="jQuery(function($){var cats=new Array();$('input:checked:not(input[value=Keine]):not(input[value=Alle])').each(function(){cats.push($(this).val());});showLayers(cats);});" /> Zwetschke</p>
+				<p><input type="checkbox" checked="checked" value="Zwetschke" onchange="jQuery(function($){var cats=new Array();$('input:checked:not(input[value=Keine]):not(input[value=Alle])').each(function(){cats.push($(this).val());});showLayers(cats);});" /> Zwetschken</p>
 				<br />
 				<p><input type="checkbox" checked="checked" value="Sonstiges" onchange="jQuery(function($){var cats=new Array();$('input:checked:not(input[value=Keine]):not(input[value=Alle])').each(function(){cats.push($(this).val());});showLayers(cats);});" /> Sonstige</p>
 				<br />

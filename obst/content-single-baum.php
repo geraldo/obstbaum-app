@@ -71,18 +71,13 @@ function getReife($date) {
 		<?php echo '<img style="float:right; margin-right:20px;" src="/static/leaflet051/images/leaf-'.get_post_meta(get_the_ID(), 'kat', true).'.png" />'; ?>
 
 		<?php 
-			//Art
-			$art_value = get_post_meta(get_the_ID(), 'art', true);
-			if($art_value != '' && $art_value != '.') echo "<p>Art: " . ucfirst($art_value) . "</p>"; 
 			//Gattung
 			$gattung_value = get_post_meta(get_the_ID(), 'gattung', true);
-			if($gattung_value != '' && $gattung_value != '.') echo "<p>Gattung: " . ucfirst($gattung_value) . "</p>"; 
+			$art_value = get_post_meta(get_the_ID(), 'art', true);
+			if($gattung_value != '' && $art_value != '') echo "<p>" . ucfirst($gattung_value) . " " . $art_value . "</p>"; 
 			//Sorte
 			$sorte_value = get_post_meta(get_the_ID(), 'sorte', true);
 			if($sorte_value != '' && $sorte_value != '.') echo "<p>Sorte: " . ucfirst($sorte_value) . "</p>"; 
-			//Kategorie
-			$kat_value = get_post_meta(get_the_ID(), 'kat', true);
-			if($kat_value != '' && $kat_value != '.') echo "<p>Kategorie: " . ucfirst($kat_value) . "</p>"; 
 			echo '<br />';
 			//Reif von
 			$date1_value = get_post_meta(get_the_ID(), 'reifvon', true);
