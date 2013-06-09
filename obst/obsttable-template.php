@@ -33,7 +33,7 @@ get_header(); ?>
 			"aaData": obst,
 			"aoColumns": [
 				{ "sTitle": "#" },
-				{ "sTitle": "Titel" },
+				{ "sTitle": "Name" },
 				{ "sTitle": "lat", "bSearchable": false, "bVisible": false },
 				{ "sTitle": "long", "bSearchable": false, "bVisible": false },
 				{ "sTitle": "Botanischer Name" },

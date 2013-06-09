@@ -74,17 +74,19 @@ function getReife($date) {
 			//Gattung
 			$gattung_value = get_post_meta(get_the_ID(), 'gattung', true);
 			$art_value = get_post_meta(get_the_ID(), 'art', true);
-			if($gattung_value != '' && $art_value != '') echo "<p>" . ucfirst($gattung_value) . " " . $art_value . "</p>"; 
+			if ($art_value == '.') $art_value = '';
+			if($gattung_value != '' || $art_value != '') echo "<p>" . ucfirst($gattung_value) . " " . $art_value . "</p>"; 
 			//Sorte
 			$sorte_value = get_post_meta(get_the_ID(), 'sorte', true);
-			if($sorte_value != '' && $sorte_value != '.') echo "<p>Sorte: " . ucfirst($sorte_value) . "</p>"; 
+			if ($sorte_value == '.') $sorte_value = '';
+			if($sorte_value != '') echo "<p>Sorte: " . ucfirst($sorte_value) . "</p>"; 
 			echo '<br />';
 			//Reif von
 			$date1_value = get_post_meta(get_the_ID(), 'reifvon', true);
-			if($date1_value != '' && $date1_value != '.') echo "<p>Reif von " . getReife($date1_value); 
+			if($date1_value != '') echo "<p>Reif von " . getReife($date1_value); 
 			//Reif bis
 			$date2_value = get_post_meta(get_the_ID(), 'reifbis', true);
-			if($date2_value != '' && $date2_value != '.') echo " bis " . getReife($date2_value) . "</p>"; 				
+			if($date2_value != '') echo " bis " . getReife($date2_value) . "</p>"; 				
 			echo '<br />';
 			//Baumhöhe
 			$baumhoehe_value = get_post_meta(get_the_ID(), 'baumhoehe', true);
