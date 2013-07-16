@@ -67,10 +67,10 @@ jQuery(document).ready(function($) {
 			if (url.indexOf("suche")!= -1) {
 				$('#primary').css('width','980');
 				//load js
-				$.getScript(window.location.host+"/wp-content/themes/obst/js/jquery.dataTables.min.js")
+				$.getScript(window.location.protocol+"//"+window.location.host+"/wp-content/themes/obst/js/jquery.dataTables.min.js")
 					.done(function(script, textStatus) {
 						//console.log( textStatus );
-						$.getScript(window.location.host+"/wp-content/export/obstexport.js")
+						$.getScript(window.location.protocol+"//"+window.location.host+"/wp-content/export/obstexport.js")
 							.done(function(script, textStatus) {
 								//console.log( textStatus );
 
@@ -117,7 +117,7 @@ jQuery(document).ready(function($) {
 						});
 					})
 					.fail(function(jqxhr, settings, exception) {
-					//console.log( "Triggered ajaxError handler." );
+					//console.log( "Triggered ajaxError handler. "+exception );
 				});
 			}
 			else {
