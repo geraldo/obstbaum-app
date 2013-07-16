@@ -13,7 +13,7 @@ jQuery(document).ready(function($) {
     var $mainContent = $("#primary"),
     siteUrl = top.location.protocol.toString() + "//" + top.location.host.toString(),
     url = '';
-	$(document).on("click", "a[href^='"+siteUrl+"']:not([href*='/wp-admin/']):not([href*='/wp-login.php']):not([href$='/feed/']):not([href$='/wp-content/uploads/']):not([href$='/wp-content/plugins/'])", function() {
+	$(document).on("click", "a[href^='"+siteUrl+"']:not([href*='/wp-admin/']):not([href*='/wp-login.php']):not([href$='/feed/']):not([href*='/wp-content/uploads/']):not([href*='/wp-content/plugins/'])", function() {
 		if ($.browser.msie && $.browser.version != 10.0) {
 			var myie = "/" + this.pathname;
 			location.hash = myie;
@@ -35,7 +35,9 @@ jQuery(document).ready(function($) {
 		url = url + " #content";
 		$mainContent.animate({opacity: "0.1"}).html('<img style="padding:20px;" src="http://linz.pflueckt.at/wp-content/themes/obst/images/ajax-loader.gif" />').load(url, function() {
 			$mainContent.animate({opacity: "1"});
-			//rebind when loaded!
+
+			//rebind javascript functions when loaded!
+			//jQuery(document).ready() doesn't get triggered using AJAX
 
 			//rating
 			$(".gdsr_rating_as > a").on("click", function(){gdsr_rating_standard(this)});
@@ -53,6 +55,74 @@ jQuery(document).ready(function($) {
 
 			//tabs
 			$("#tabs").tabs();
+
+			//blog
+			if (url.indexOf("blog")!= -1) {
+				$("p").each(function() {
+					$(this).css('margin-bottom','20px');
+				});
+			}
+
+			//datatable
+			if (url.indexOf("suche")!= -1) {
+				$('#primary').css('width','980');
+				//load js
+				$.getScript(window.location.host+"/wp-content/themes/obst/js/jquery.dataTables.min.js")
+					.done(function(script, textStatus) {
+						//console.log( textStatus );
+						$.getScript(window.location.host+"/wp-content/export/obstexport.js")
+							.done(function(script, textStatus) {
+								//console.log( textStatus );
+
+								//apply data table
+								$('#obsttable').html( '<table cellpadding="0" cellspacing="0" border="0" class="display" id="obst"></table>' );
+								$('#obst').dataTable( {
+									"aaData": obst,
+									"aoColumns": [
+										{ "sTitle": "#" },
+										{ "sTitle": "Name" },
+										{ "sTitle": "lat", "bSearchable": false, "bVisible": false },
+										{ "sTitle": "long", "bSearchable": false, "bVisible": false },
+										{ "sTitle": "Botanischer Name" },
+										{ "sTitle": "Sorte" },
+										{ "sTitle": "Kategorie" },
+										{ "sTitle": "Bewertung" },
+										{ "sTitle": "Kommentare" },
+										{ "sTitle": "Fotos" },
+										{ "bSearchable": false, "sWidth": "75px", "bSortable": false, "fnRender": function(oObj) { var id=oObj.aData[0]-1; return '<a class="abutton" href="http://linz.pflueckt.at/" onclick="map.setView(new L.LatLng('+oObj.aData[2]+','+oObj.aData[3]+'), 18, false);map.on(\'zoomend\', function(e) {markersArray['+id+'].openPopup()});">Zeige #'+oObj.aData[0]+'</a>'; } }
+									],
+									"oLanguage": {
+												"sLengthMenu": "Zeige _MENU_ Datensätze pro Seite",
+												"sZeroRecords": "Nichts gefunden - sorry",
+												"sInfo": "Zeigt _START_ bis _END_ von _TOTAL_ Datensätzen",
+												"sInfoEmpty": "Zeigt 0 bis 0 von 0 Datensätzen",
+												"sInfoFiltered": "(gefiltert von insgesamt _MAX_ Datensätzen)",
+												"sSearch" : "Suche:",
+												"oPaginate": {
+														"sPrevious": "Vorige Seite",
+														"sNext": "Nächste Seite",
+														"sFirst": "Erste Seite",
+														"sLast": "Letzte Seite"
+													  }
+											},
+									"aLengthMenu": [[20, 50, 100, -1], [20, 50, 100, "All"]],
+									"iDisplayLength": 20,
+									"sPaginationType": "full_numbers",
+									"bAutoWidth": false
+								} );
+
+							})
+							.fail(function(jqxhr, settings, exception) {
+							//console.log( "Triggered ajaxError handler." );
+						});
+					})
+					.fail(function(jqxhr, settings, exception) {
+					//console.log( "Triggered ajaxError handler." );
+				});
+			}
+			else {
+				$('#primary').css('width','600');
+			}
 		});
     });
     $(window).trigger('hashchange');

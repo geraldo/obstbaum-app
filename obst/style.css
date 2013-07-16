@@ -127,7 +127,7 @@ a img {
 	position: absolute;
 	top: 50px;
 	left:50px;
-	width: 750px;
+	width: 600px;
 	height:auto;
 	z-index: 2;
 	background: #fff;
@@ -223,6 +223,10 @@ a.abutton:hover {
 
 .ui-tabs-active a {
 	font-weight:bold;
+}
+
+.single-post p, .blog p {
+	margin-bottom:20px;
 }
 
 /* =Global

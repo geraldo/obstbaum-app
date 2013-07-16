@@ -7,7 +7,7 @@
 
 get_header(); ?>
 
-	<div id="primary" class="content-area">
+	<div id="primary" class="content-area" style="width:980px;">
 		<div id="content" class="site-content" role="main">
 			<a class="close-button" href="<?php echo esc_url( home_url( '/' ) ); ?>">×</a>
 
@@ -17,7 +17,8 @@ get_header(); ?>
 					@import "<?php echo get_stylesheet_directory_uri(); ?>/layouts/demo_table.css";
 				</style>
 				<script type="text/javascript" language="javascript" src="<?php echo get_stylesheet_directory_uri(); ?>/js/jquery.dataTables.min.js"></script>
-				<script type="text/javascript" language="javascript" src="<?php echo esc_url( home_url( '/' ) ); ?>static/obstTable.js"></script>
+				<!--<script type="text/javascript" language="javascript" src="<?php echo esc_url( home_url( '/' ) ); ?>static/obstTable.js"></script>-->
+				<script type="text/javascript" language="javascript" src="<?php echo esc_url( home_url( '/' ) ); ?>wp-content/export/obstexport.js"></script>
 
 				<div id="obsttable"></div>
 
@@ -39,7 +40,10 @@ get_header(); ?>
 				{ "sTitle": "Botanischer Name" },
 				{ "sTitle": "Sorte" },
 				{ "sTitle": "Kategorie" },
-				{ "bSearchable": false, "bSortable": false, "fnRender": function(oObj) { var id=oObj.aData[0]-1; return '<a class="abutton" href="<?php echo esc_url( home_url( "/" ) ) ?>" onclick="map.setView(new L.LatLng('+oObj.aData[2]+','+oObj.aData[3]+'), 18, false);map.on(\'zoomend\', function(e) {markersArray['+id+'].openPopup()});">Zeige #'+oObj.aData[0]+'</a>'; } }
+				{ "sTitle": "Bewertung" },
+				{ "sTitle": "Kommentare" },
+				{ "sTitle": "Fotos" },
+				{ "bSearchable": false, "sWidth": "75px", "bSortable": false, "fnRender": function(oObj) { var id=oObj.aData[0]-1; return '<a class="abutton" href="<?php echo esc_url( home_url( "/" ) ) ?>" onclick="map.setView(new L.LatLng('+oObj.aData[2]+','+oObj.aData[3]+'), 18, false);map.on(\'zoomend\', function(e) {markersArray['+id+'].openPopup()});">Zeige #'+oObj.aData[0]+'</a>'; } }
 			],
 			"oLanguage": {
 						"sLengthMenu": "Zeige _MENU_ Datensätze pro Seite",
