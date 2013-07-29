@@ -17,9 +17,6 @@ get_header(); ?>
 					@import "<?php echo get_stylesheet_directory_uri(); ?>/layouts/demo_table.css";
 				</style>
 				<script type="text/javascript" language="javascript" src="<?php echo get_stylesheet_directory_uri(); ?>/js/jquery.dataTables.min.js"></script>
-				<!--<script type="text/javascript" language="javascript" src="<?php echo esc_url( home_url( '/' ) ); ?>static/obstTable.js"></script>-->
-				<script type="text/javascript" language="javascript" src="<?php echo esc_url( home_url( '/' ) ); ?>wp-content/export/obstexport.js"></script>
-
 				<div id="obsttable"></div>
 
 			</div>
@@ -61,6 +58,7 @@ get_header(); ?>
 					},
 			"aLengthMenu": [[20, 50, 100, -1], [20, 50, 100, "All"]],
 			"iDisplayLength": 20,
+			"aaSorting": [[ 8, "desc" ]],
 			"sPaginationType": "full_numbers",
 			"bAutoWidth": false
 		} );	

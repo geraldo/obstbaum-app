@@ -70,51 +70,45 @@ jQuery(document).ready(function($) {
 				$.getScript(window.location.protocol+"//"+window.location.host+"/wp-content/themes/obst/js/jquery.dataTables.min.js")
 					.done(function(script, textStatus) {
 						//console.log( textStatus );
-						$.getScript(window.location.protocol+"//"+window.location.host+"/wp-content/export/obstexport.js")
-							.done(function(script, textStatus) {
-								//console.log( textStatus );
 
-								//apply data table
-								$('#obsttable').html( '<table cellpadding="0" cellspacing="0" border="0" class="display" id="obst"></table>' );
-								$('#obst').dataTable( {
-									"aaData": obst,
-									"aoColumns": [
-										{ "sTitle": "#" },
-										{ "sTitle": "Name" },
-										{ "sTitle": "lat", "bSearchable": false, "bVisible": false },
-										{ "sTitle": "long", "bSearchable": false, "bVisible": false },
-										{ "sTitle": "Botanischer Name" },
-										{ "sTitle": "Sorte" },
-										{ "sTitle": "Kategorie" },
-										{ "sTitle": "Bewertung" },
-										{ "sTitle": "Kommentare" },
-										{ "sTitle": "Fotos" },
-										{ "bSearchable": false, "sWidth": "75px", "bSortable": false, "fnRender": function(oObj) { var id=oObj.aData[0]-1; return '<a class="abutton" href="http://linz.pflueckt.at/" onclick="map.setView(new L.LatLng('+oObj.aData[2]+','+oObj.aData[3]+'), 18, false);map.on(\'zoomend\', function(e) {markersArray['+id+'].openPopup()});">Zeige #'+oObj.aData[0]+'</a>'; } }
-									],
-									"oLanguage": {
-												"sLengthMenu": "Zeige _MENU_ Datensätze pro Seite",
-												"sZeroRecords": "Nichts gefunden - sorry",
-												"sInfo": "Zeigt _START_ bis _END_ von _TOTAL_ Datensätzen",
-												"sInfoEmpty": "Zeigt 0 bis 0 von 0 Datensätzen",
-												"sInfoFiltered": "(gefiltert von insgesamt _MAX_ Datensätzen)",
-												"sSearch" : "Suche:",
-												"oPaginate": {
-														"sPrevious": "Vorige Seite",
-														"sNext": "Nächste Seite",
-														"sFirst": "Erste Seite",
-														"sLast": "Letzte Seite"
-													  }
-											},
-									"aLengthMenu": [[20, 50, 100, -1], [20, 50, 100, "All"]],
-									"iDisplayLength": 20,
-									"sPaginationType": "full_numbers",
-									"bAutoWidth": false
-								} );
+						//apply data table
+						$('#obsttable').html( '<table cellpadding="0" cellspacing="0" border="0" class="display" id="obst"></table>' );
+						$('#obst').dataTable( {
+							"aaData": obst,
+							"aoColumns": [
+								{ "sTitle": "#" },
+								{ "sTitle": "Name" },
+								{ "sTitle": "lat", "bSearchable": false, "bVisible": false },
+								{ "sTitle": "long", "bSearchable": false, "bVisible": false },
+								{ "sTitle": "Botanischer Name" },
+								{ "sTitle": "Sorte" },
+								{ "sTitle": "Kategorie" },
+								{ "sTitle": "Bewertung" },
+								{ "sTitle": "Kommentare" },
+								{ "sTitle": "Fotos" },
+								{ "bSearchable": false, "sWidth": "75px", "bSortable": false, "fnRender": function(oObj) { var id=oObj.aData[0]-1; return '<a class="abutton" href="http://linz.pflueckt.at/" onclick="map.setView(new L.LatLng('+oObj.aData[2]+','+oObj.aData[3]+'), 18, false);map.on(\'zoomend\', function(e) {markersArray['+id+'].openPopup()});">Zeige #'+oObj.aData[0]+'</a>'; } }
+							],
+							"oLanguage": {
+										"sLengthMenu": "Zeige _MENU_ Datensätze pro Seite",
+										"sZeroRecords": "Nichts gefunden - sorry",
+										"sInfo": "Zeigt _START_ bis _END_ von _TOTAL_ Datensätzen",
+										"sInfoEmpty": "Zeigt 0 bis 0 von 0 Datensätzen",
+										"sInfoFiltered": "(gefiltert von insgesamt _MAX_ Datensätzen)",
+										"sSearch" : "Suche:",
+										"oPaginate": {
+												"sPrevious": "Vorige Seite",
+												"sNext": "Nächste Seite",
+												"sFirst": "Erste Seite",
+												"sLast": "Letzte Seite"
+											  }
+									},
+							"aLengthMenu": [[20, 50, 100, -1], [20, 50, 100, "All"]],
+							"iDisplayLength": 20,
+							"aaSorting": [[ 8, "desc" ]],
+							"sPaginationType": "full_numbers",
+							"bAutoWidth": false
+						} );
 
-							})
-							.fail(function(jqxhr, settings, exception) {
-							//console.log( "Triggered ajaxError handler." );
-						});
 					})
 					.fail(function(jqxhr, settings, exception) {
 					//console.log( "Triggered ajaxError handler. "+exception );
