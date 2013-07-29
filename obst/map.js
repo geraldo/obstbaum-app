@@ -1,15 +1,3 @@
-<?php
-	//Let's set the header straight
-	header('Content-type: text/javascript');
-
-	//Get the WP-specifics, so that we can use constants and what not
-	//$home_dir = preg_replace('^wp-content/themes/[a-z0-9\-/]+^', '', getcwd());
-	//include($home_dir . 'wp-load.php');
-	//include('/home/geraldko/public_html/obst/wp-load.php');
-	include('/var/www/vhosts/linzwiki.at/obst/wp-load.php');
-	//include('/var/www/obst/wp-load.php');
-?>
-
 var map, markers, markersArray, catApfel, catBirne, catKastanie, catKirsche, catNuesse, catZwetschke, catSonstiges;
 
 function loadMap() {
@@ -82,40 +70,6 @@ function loadMap() {
 		popupAnchor:  [-3, -76]
 	});
 
-	<?php 
-		$ratings = 'var ratings=[';
-		$comments = 'var comments=[';
-		$fotos = 'var fotos=[';
-
-		for ($i=0; $i<wp_count_posts('baum')->publish; $i++) {
-			$id = $i+900;	//wordpress offset
-			if (function_exists("wp_gdsr_rating_article")) {
-				if ($i>0) $ratings .= ',';
-				$ratings .= wp_gdsr_rating_article($id)->rating;
-			}
-			if ($i>0) $comments .= ',';
-			$comments .= get_post($id)->comment_count;
-
-			//count fotos
-			$coms = get_comments(array('post_id' => $id));
-			$numFotos = 0;
-			foreach ($coms as $com) {
-				$images = get_comment_meta($com->comment_ID, 'comment_image', true);
-				if ($images) $numFotos++;
-			}
-			if ($i > 0) $fotos .= ',';
-			$fotos .= $numFotos;
-		}
-
-		$ratings .= "];";
-		$comments .= "];";
-		$fotos .= "];";
-
-		echo $ratings.PHP_EOL;
-		echo $comments.PHP_EOL;
-		echo $fotos.PHP_EOL;
-	?>
-
 	map = new L.Map('map', {center: latlng, zoom: 13, layers: [cloudmade], attributionControl: false});
 	markers = new L.MarkerClusterGroup({spiderfyDistanceMultiplier: 2.2, maxClusterRadius: 60, disableClusteringAtZoom: 18});
 
@@ -129,9 +83,9 @@ function loadMap() {
 
 	markersArray = new Array();
 	
-	for (var i = 0; i < obstPoints.length; i++) {
-		var a = obstPoints[i];
-		var cat = a[4];
+	for (var i = 0; i < obst.length; i++) {
+		var a = obst[i];
+		var cat = a[6];
 
 		if (cat=='Apfel') var baumIcon = apfelIcon;
 		else if (cat=='Birne') var baumIcon = birneIcon;
@@ -142,12 +96,12 @@ function loadMap() {
 		else var baumIcon = greenIcon;
 
 		var marker = new L.Marker(new L.LatLng(a[2], a[3]), { icon: baumIcon });
-		var rating = 120 / 5 * ratings[i]; 
-		if ( comments[i] == 1) var comment = "Kommentar";
+		var rating = 120 / 5 * a[7]; 
+		if ( a[8] == 1) var comment = "Kommentar";
 		else var comment = "Kommentare";
-		if ( fotos[i] == 1) var foto = "Foto";
+		if ( a[9] == 1) var foto = "Foto";
 		else var foto = "Fotos";
-		marker.bindPopup("<b>"+a[1]+" [#"+a[0]+"]</b><br><br><div style='text-align:left; padding: 0; margin: 0; background: url(http://linz.pflueckt.at/wp-content/plugins/gd-star-rating/stars/oxygen/stars24.png); height: 24px; width: 120px;'><div style='background: url(http://linz.pflueckt.at/wp-content/plugins/gd-star-rating/stars/oxygen/stars24.png) bottom left; padding: 0; margin: 0; height: 24px; width: "+rating+"px;'></div></div><br>"+comments[i]+" "+comment+", "+fotos[i]+" "+foto+"<br><br><a href='/#/baum/"+a[0]+"'>Details anzeigen</a>");
+		marker.bindPopup("<b>"+a[1]+" [#"+a[0]+"]</b><br><br><div style='text-align:left; padding: 0; margin: 0; background: url(http://linz.pflueckt.at/wp-content/plugins/gd-star-rating/stars/oxygen/stars24.png); height: 24px; width: 120px;'><div style='background: url(http://linz.pflueckt.at/wp-content/plugins/gd-star-rating/stars/oxygen/stars24.png) bottom left; padding: 0; margin: 0; height: 24px; width: "+a[7]+"px;'></div></div><br>"+a[8]+" "+comment+", "+a[9]+" "+foto+"<br><br><a href='/#/baum/"+a[0]+"'>Details anzeigen</a>");
 		markersArray.push(marker);
 
 		if (cat=='Apfel') catApfel.addLayer(marker);
