@@ -1,4 +1,4 @@
-var map, markers, markersArray, catApfel, catBirne, catKastanie, catKirsche, catNuesse, catZwetschke, catSonstiges;
+var map, markers, markersArray, catApfel, catBirne, catKastanie, catKirsche, catNuesse, catZwetschke, catSonstiges, polygonArray;
 
 function loadMap() {
 	var cloudmadeUrl = 'http://{s}.tile.cloudmade.com/60ec3a9d598e4c919b3ceda2344e0b19/94190/256/{z}/{x}/{y}.png',
@@ -127,6 +127,20 @@ function loadMap() {
 		title: "Zeige mir meinen aktuellen Standpunkt",
 		popupText: ["Du bist im Umkreis von ", " von diesem Punkt."],
 	}).addTo(map);
+
+	/* load Obstbaumgärten */
+	polygonArray = new Array();
+
+	for (var i = 0; i < garten.length; i++) {
+		var g = garten[i];
+		var obstgarten = L.polygon(g[3], {
+			color: 'red',
+			fillColor: '#649650',
+			fillOpacity: 0.6
+		}).addTo(map);
+		obstgarten.bindPopup("<b>"+g[1]+"</b><br><br>"+g[2]+"<br><br><a href='http://linz.pflueckt.at/#/garten/"+g[4]+"'>Details anzeigen</a>");
+		polygonArray.push(obstgarten);
+	}
 }
 
 function showLayers(layers) {

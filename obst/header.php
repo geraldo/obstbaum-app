@@ -35,6 +35,7 @@
 	<script src="<?php echo get_template_directory_uri(); ?>/leaflet051/L.Control.Locate.js" ></script>
 
 	<script src="<?php echo esc_url( home_url( '/' ) ); ?>wp-content/export/obstexport.js" type="text/javascript"></script>
+	<script src="<?php echo esc_url( home_url( '/' ) ); ?>wp-content/export/obstgarten.js" type="text/javascript"></script>
 	<?php wp_head(); ?>
 	<script src="<?php echo get_template_directory_uri(); ?>/map.js" type="text/javascript"></script>
 </head>

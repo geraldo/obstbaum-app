@@ -152,10 +152,11 @@ add_action( 'wp_enqueue_scripts', 'obst_scripts' );
  */
 //require( get_template_directory() . '/inc/custom-header.php' );
 
-
-/* create custom post type BAUM */
+/* create custom post type BAUM and GARTEN */
 add_action( 'init', 'create_post_type' );
 function create_post_type() {
+
+	/* BAUM */
 	register_post_type( 'baum',
 		array(
 			'labels' => array(
@@ -167,6 +168,23 @@ function create_post_type() {
 		)
 	);
 	add_post_type_support( 'baum', 
+		array(
+			'comments',
+			'custom-fields'
+		));
+
+	/* GARTEN */
+	register_post_type( 'garten',
+		array(
+			'labels' => array(
+				'name' => __( 'Gärten' ),
+				'singular_name' => __( 'Garten' )
+			),
+		'public' => true,
+		'has_archive' => false,
+		)
+	);
+	add_post_type_support( 'garten', 
 		array(
 			'comments',
 			'custom-fields'
@@ -215,3 +233,4 @@ function hide_menus() {
     }
 }
 add_action('admin_head', 'hide_menus');
+
