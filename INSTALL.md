@@ -18,13 +18,11 @@ Installationsanleitung
  * WordPress Database Backup
  * WP-Cycle
 
-3. Installieren Sie das [Wordpress Template](https://github.com/geraldo/obstbaum-app/tree/master/obst)  von GitHub als Wordpress Theme.
+3. Installieren Sie das [Wordpress Template](https://github.com/geraldo/obstbaum-app/tree/master/obst) von GitHub als Wordpress Theme.
 
-4. Passen Sie folgenden Pfad in Zeile 9 von map.php an Ihre Installation an:
-`include('/var/www/vhosts/linzwiki.at/obst/wp-load.php');`
-Sie müssen dabei `/var/www/vhosts/linzwiki.at/obst/` durch einen absoluten Pfad auf Ihr Wordpress Verzeichnis ersetzen.
-
-5. Importieren Sie die Bäume mithilfe des [Import Templates](https://github.com/geraldo/obstbaum-app/blob/master/obst/import-template.php) von GitHub nach Wordpress. Sie müssen dazu den Pfad in Zeile 9 auf Ihre Installation anpassen:
+4. Importieren Sie die Bäume mithilfe des [Import Templates](https://github.com/geraldo/obstbaum-app/blob/master/obst/import-template.php) von GitHub nach Wordpress. Sie müssen dazu den Pfad in Zeile 9 auf Ihre Installation anpassen:
 `include_once("/var/www/vhosts/linzwiki.at/obst/static/parse/proj4php/proj4php.php");`
+
+5. Standardmässig verwenden wir eine statische geojson Datei um die Bäume auf der Karte einzuzeichnen. Um diese Datei aktuell zu halten empfiehlt es sich die Daten regelmässig, etwa durch einen cron-job oder durch einen Wordpress hook, zu exportieren. Dazu gibt stellen wir dieses [Export Template](https://github.com/geraldo/obstbaum-app/blob/master/obst/export-template.php) bereit.
 
 6. Testen Sie die Installation und dokumentieren Sie mögliche Fehler in den [Issues auf GitHub](https://github.com/geraldo/obstbaum-app/issues)
