@@ -144,7 +144,11 @@ get_header(); ?>
 					$comments = get_comments($args);
 					foreach($comments as $comment) :
 						echo '<li class="new_comment">';
-						$baum = get_post($comment->comment_post_ID);
+						$post = get_post($comment->comment_post_ID);
+						$type = $post->post_type;
+						if ($type != 'baum' && $type != 'garten' && $type == 'post') {
+							$type = 'blog';
+						}
 						//comment image
 						$images = get_comment_meta($comment->comment_ID, 'comment_image', true);
 						if ($images) {
@@ -152,7 +156,7 @@ get_header(); ?>
 							   'post_type' => 'attachment',
 							   'numberposts' => -1,
 							   'post_status' => null,
-							   'post_parent' => $baum->ID,
+							   'post_parent' => $post->ID,
 							   'author' => $comment->user_id
 							  );
 							$imgs = get_posts( $args );
@@ -175,7 +179,7 @@ get_header(); ?>
 						echo '</em> sagt am ';
 						echo date(" j.n.Y", strtotime($comment->comment_date_gmt));
 						echo ' über <em>';
-						echo $baum->post_title.' [<a href="'.esc_url( home_url( '/' ) ).'baum/'.$baum->post_name.'">#'.$baum->post_name.'</a>]';
+						echo $post->post_title.' [<a href="'.esc_url( home_url( '/' ) ).$type.'/'.$post->post_name.'">#'.$post->post_name.'</a>]';
 						echo '</em><br />'.apply_filters('the_content', $comment->comment_content);
 						echo '</li>';
 					endforeach;
