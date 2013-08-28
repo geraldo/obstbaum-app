@@ -29,7 +29,8 @@ get_header(); ?>
 						echo '<ol>';
 						foreach ($authors as $author) {
 							echo '<li>';
-							show_user($author->comment_author, $author->comment_author_url);
+							$user = get_user_by('id', $author->user_id);
+							show_user($author->comment_author, $user->user_nicename);
 							//count comments
 							echo ': '.$author->comment_comments.' Kommentar';
 							echo ($author->comment_comments<>1) ? 'e' : '';
@@ -65,7 +66,7 @@ get_header(); ?>
 					$blogusers = get_users('blog_id=1&orderby=ID&order=DESC&role=subscriber&number=10');
 					foreach ($blogusers as $user) {
 						echo '<li>';
-						show_user($user->user_nicename, $user->user_url, $user->first_name, $user->last_name);
+						show_user($user->display_name, $user->user_nicename, $user->first_name, $user->last_name);
 						echo date(" [j.n.Y", strtotime($user->user_registered)).']';
 						echo '</li>';
 					}
@@ -207,11 +208,17 @@ get_header(); ?>
 						//comment
 						echo get_avatar( $comment, 40 );
 						echo '<em>';
-						show_user($comment->comment_author, $comment->comment_author_url);
+						$user = get_user_by('id', $comment->user_id);
+						show_user($user->display_name, $user->user_nicename);
 						echo '</em> sagt am ';
 						echo date(" j.n.Y", strtotime($comment->comment_date_gmt));
 						echo ' über <em>';
-						echo $post->post_title.' [<a href="'.esc_url( home_url( '/' ) ).$type.'/'.$post->post_name.'">#'.$post->post_name.'</a>]';
+
+						if ($type == 'baum')
+							echo $post->post_title.' [<a href="'.esc_url( home_url( '/' ) ).$type.'/'.$post->post_name.'">#'.$post->post_name.'</a>]';
+						else
+							echo '<a href="'.esc_url( home_url( '/' ) ).$type.'/'.$post->post_name.'">'.$post->post_title.'</a>';
+
 						echo '</em><br />'.apply_filters('the_content', $comment->comment_content);
 						echo '</li>';
 					endforeach;
@@ -233,7 +240,7 @@ get_header(); ?>
 
 <?php
 	function show_user($name, $url, $first=null, $last=null) {
-		if ($url && $url != "") echo '<a href="'.$url.'">'.$name.'</a>';
+		if ($url && $url != "") echo '<a href="/author/'.$url.'">'.$name.'</a>';
 		else echo $name;
 		if ($first || $last) echo ' ('.$first.' '.$last.')';
 	}

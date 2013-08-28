@@ -229,6 +229,10 @@ a.abutton:hover {
 	margin-bottom:20px;
 }
 
+.author .avatar {
+	float:right;
+}
+
 /* =Global
 ----------------------------------------------- */
 
