@@ -115,7 +115,9 @@ jQuery(document).ready(function($) {
 				});
 			}
 			else {
-				$('#primary').css('width','600');
+				var w = $(window).width();
+				if (w>600) $('#primary').css('width','600');
+				else $('#primary').css('width',w);
 			}
 		});
     });

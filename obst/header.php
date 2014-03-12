@@ -36,6 +36,7 @@
 
 	<script src="<?php echo esc_url( home_url( '/' ) ); ?>wp-content/export/obstexport.js" type="text/javascript"></script>
 	<script src="<?php echo esc_url( home_url( '/' ) ); ?>wp-content/export/obstgarten.js" type="text/javascript"></script>
+	<script src="<?php echo esc_url( home_url( '/' ) ); ?>wp-content/export/gemeinschaftsgarten.js" type="text/javascript"></script>
 	<?php wp_head(); ?>
 	<script src="<?php echo get_template_directory_uri(); ?>/map.js" type="text/javascript"></script>
 </head>
@@ -54,5 +55,9 @@
 
 	<div id="main" class="site-main">
 
-	<div id="map"></div>
+	<div id="map">
+		<!-- Start mapbox watermark -->
+		<a href="http://mapbox.com/" class='mapbox-maplogo' target="_blank">MapBox</a>
+		<!-- End mapbox watermark -->
+	</div>
 

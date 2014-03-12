@@ -16,7 +16,8 @@ get_header(); ?>
 			<ul>
 			<li><a href="#tabs-1">PfückerInnen</a></li>
 			<li><a href="#tabs-2">Bäume</a></li>
-			<li><a href="#tabs-3">Kommentare</a></li>
+			<li><a href="#tabs-3">Gärten</a></li>
+			<li><a href="#tabs-4">Kommentare</a></li>
 			</ul>
 			<div id="tabs-1">
 
@@ -113,38 +114,6 @@ get_header(); ?>
 					}
 				?>
 
-				<h3><a name="obstbaumgaerten">Obstbaumgärten</a></h3>
-				<?php 
-					$query = "SELECT ID,post_title,comment_count,post_name FROM $wpdb->posts WHERE post_type='garten' ORDER BY comment_count DESC LIMIT 10";
-					$gaerten = $wpdb->get_results($query);
-					if ($gaerten) {
-						echo '<ol>';
-						foreach ($gaerten as $garten) {
-							$url = $garten->post_name;
-							//count comments
-							echo '<li><a href="'.esc_url( home_url( '/' ) ).'garten/'.$url.'">'.$garten->post_title.'</a>';
-							if ($garten->comment_count > 0) {
-								echo ': '.$garten->comment_count.' Kommentar';
-								echo ': '.($garten->comment_count<>1) ? 'e' : '';
-							}
-
-							//count comment images
-							$comments = get_comments(array('post_id' => $garten->ID));
-							$num = 0;
-							foreach ($comments as $comment) {
-								$images = get_comment_meta($comment->comment_ID, 'comment_image', true);
-								if ($images) $num++;
-							}
-							if ($num > 0) {
-								echo ', ' . $num . ' Foto';
-								echo ($num<>1) ? 's' : '';
-							}
-							echo '</li>';
-						}
-						echo '</ol>';
-					}
-				?>
-
 				<h3><a name="beste-fruechte">Beste Früchte</a></h3>
 				<?php 
 					wp_gdsr_render_rating_results(array('template_id' => 48, 'select' => 'baum', 'rows' => 10, 'min_votes' => 1));
@@ -166,6 +135,82 @@ get_header(); ?>
 
 				</div>
 				<div id="tabs-3">
+
+				<h3><a name="obstbaumgaerten">Obstbaumgärten</a></h3>
+				<?php 
+					$query = "SELECT ID,post_title,comment_count,post_name FROM $wpdb->posts WHERE post_type='garten' ORDER BY comment_count DESC LIMIT 50";
+					$gaerten = $wpdb->get_results($query);
+					if ($gaerten) {
+						echo '<ul>';
+						foreach ($gaerten as $garten) {
+							$type = get_post_meta($garten->ID, 'gartentyp', true);
+							if ($type == 'obstbaumgarten') {
+
+								$url = $garten->post_name;
+								//count comments
+								echo '<li><a href="'.esc_url( home_url( '/' ) ).'garten/'.$url.'">'.$garten->post_title.'</a>';
+								if ($garten->comment_count > 0) {
+									echo ': '.$garten->comment_count.' Kommentar';
+									echo ': '.($garten->comment_count<>1) ? 'e' : '';
+								}
+
+								//count comment images
+								$comments = get_comments(array('post_id' => $garten->ID));
+								$num = 0;
+								foreach ($comments as $comment) {
+									$images = get_comment_meta($comment->comment_ID, 'comment_image', true);
+									if ($images) $num++;
+								}
+								if ($num > 0) {
+									echo ', ' . $num . ' Foto';
+									echo ($num<>1) ? 's' : '';
+								}
+								echo '</li>';
+							}
+						}
+						echo '</ul>';
+					}
+				?>
+
+				<h3><a name="gemeinschaftsgaerten">Gemeinschaftsgärten</a></h3>
+				<?php 
+					$query = "SELECT ID,post_title,comment_count,post_name FROM $wpdb->posts WHERE post_type='garten' ORDER BY comment_count DESC LIMIT 10";
+					$gaerten = $wpdb->get_results($query);
+
+					if ($gaerten) {
+						echo '<ul>';
+						foreach ($gaerten as $garten) {
+							$type = get_post_meta($garten->ID, 'gartentyp', true);
+							if ($type == 'gemeinschaftsgarten') {
+
+								$url = $garten->post_name;
+								//count comments
+								echo '<li><a href="'.esc_url( home_url( '/' ) ).'garten/'.$url.'">'.$garten->post_title.'</a>';
+								if ($garten->comment_count > 0) {
+									echo ': '.$garten->comment_count.' Kommentar';
+									echo ': '.($garten->comment_count<>1) ? 'e' : '';
+								}
+
+								//count comment images
+								$comments = get_comments(array('post_id' => $garten->ID));
+								$num = 0;
+								foreach ($comments as $comment) {
+									$images = get_comment_meta($comment->comment_ID, 'comment_image', true);
+									if ($images) $num++;
+								}
+								if ($num > 0) {
+									echo ', ' . $num . ' Foto';
+									echo ($num<>1) ? 's' : '';
+								}
+								echo '</li>';
+							}
+						}
+						echo '</ul>';
+					}
+				?>
+
+				</div>
+				<div id="tabs-4">
 
 				<h3><a name="kommentare">Neueste Kommentare</a></h3>
 				<ol>

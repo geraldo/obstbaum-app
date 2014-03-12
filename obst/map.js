@@ -1,11 +1,6 @@
-var map, markers, markersArray, catApfel, catBirne, catKastanie, catKirsche, catNuesse, catZwetschke, catSonstiges, polygonArray;
+var map, markers, markersArray, catApfel, catBirne, catKastanie, catKirsche, catNuesse, catZwetschke, catSonstiges, catObstgarden, catGarden, polygonArray1, polygonArray2;
 
 function loadMap() {
-	var cloudmadeUrl = 'http://{s}.tile.cloudmade.com/60ec3a9d598e4c919b3ceda2344e0b19/94190/256/{z}/{x}/{y}.png',
-		cloudmadeAttribution = '',
-		cloudmade = new L.TileLayer(cloudmadeUrl, {maxZoom: 18, attribution: cloudmadeAttribution}),
-		latlng = new L.LatLng(48.30, 14.30);
-
 	var greenIcon = L.icon({
 		iconUrl: '/wp-content/themes/obst/leaflet051/images/leaf-green.png',
 		shadowUrl: '/wp-content/themes/obst/leaflet051/images/leaf-shadow.png',
@@ -69,8 +64,33 @@ function loadMap() {
 		shadowAnchor: [4, 62],
 		popupAnchor:  [-3, -76]
 	});
+	var obstgardenIcon = L.icon({
+		iconUrl: '/wp-content/themes/obst/leaflet051/images/leaf-garden.png',
+		iconSize:     [35, 47],
+		iconAnchor:   [20, 47],
+		popupAnchor:  [-10, -36]
+	});
+	var gardenIcon = L.icon({
+		iconUrl: '/wp-content/themes/obst/leaflet051/images/watering.png',
+		iconSize:     [37, 30],
+		iconAnchor:   [20, 15],
+		popupAnchor:  [-10, -20]
+	});
 
-	map = new L.Map('map', {center: latlng, zoom: 13, layers: [cloudmade], attributionControl: false});
+	var mapboxTiles = L.tileLayer('https://{s}.tiles.mapbox.com/v3/geraldo.map-cekfhhly/{z}/{x}/{y}.png');
+	var mapboxSatellite = L.tileLayer('https://{s}.tiles.mapbox.com/v3/geraldo.hej3b3ge/{z}/{x}/{y}.png');
+	var mapboxTerrain = L.tileLayer('https://{s}.tiles.mapbox.com/v3/geraldo.hej56206/{z}/{x}/{y}.png');
+	var center = new L.LatLng(48.30, 14.30);
+
+	map = new L.Map('map', {center: center, zoom: 13, layers: [mapboxTiles], attributionControl: false});
+
+	var baseMaps = {
+		"Standard": mapboxTiles,
+		"Terrain": mapboxTerrain,
+		"Satellit": mapboxSatellite
+	};
+	L.control.layers(baseMaps, null, {position: 'topleft'}).addTo(map);
+
 	markers = new L.MarkerClusterGroup({spiderfyDistanceMultiplier: 2.2, maxClusterRadius: 60, disableClusteringAtZoom: 18});
 
 	catApfel = new L.LayerGroup();
@@ -129,18 +149,54 @@ function loadMap() {
 	}).addTo(map);
 
 	/* load Obstbaumgärten */
-	polygonArray = new Array();
+	polygonArray1 = new Array();
+	catObstgarden = new L.LayerGroup();
 
 	for (var i = 0; i < garten.length; i++) {
 		var g = garten[i];
 		var obstgarten = L.polygon(g[3], {
-			color: 'red',
+			color: '#649650',
 			fillColor: '#649650',
 			fillOpacity: 0.6
 		}).addTo(map);
-		obstgarten.bindPopup("<b>"+g[1]+"</b><br><br>"+g[2]+"<br><br><a href='http://linz.pflueckt.at/#/garten/"+g[4]+"'>Details anzeigen</a>");
-		polygonArray.push(obstgarten);
+		//obstgarten.bindPopup("<b>"+g[1]+"</b><br><br>"+g[2]+"<br><br><a href='http://linz.pflueckt.at/#/garten/"+g[4]+"'>Details anzeigen</a>");
+		polygonArray1.push(obstgarten);
+
+		var coords = json2Array(g[3]);
+		var polygon = new Region(coords);
+		var center = polygon.centroid();
+
+		var marker = new L.Marker(new L.LatLng(center.x, center.y), { icon: obstgardenIcon });
+		marker.bindPopup("<b>"+g[1]+"</b><br><br>"+g[2]+"<br><br><a href='http://linz.pflueckt.at/#/garten/"+g[4]+"'>Details anzeigen</a>");
+		//markersArray.push(marker);
+		catObstgarden.addLayer(marker);
 	}
+	map.addLayer(catObstgarden);
+
+	/* load Gemeinschaftsgärten */
+	polygonArray2 = new Array();
+	catGarden = new L.LayerGroup();
+
+	for (var i = 0; i < urbangarden.length; i++) {
+		var g = urbangarden[i];
+		var gemeingarten = L.polygon(g[3], {
+			color: '#649650',
+			fillColor: '#649650',
+			fillOpacity: 0.6
+		}).addTo(map);
+		//gemeingarten.bindPopup("<b>"+g[1]+"</b><br><br>"+g[2]+"<br><br><a href='http://linz.pflueckt.at/#/garten/"+g[4]+"'>Details anzeigen</a>");
+		polygonArray2.push(gemeingarten);
+
+		var coords = json2Array(g[3]);
+		var polygon = new Region(coords);
+		var center = polygon.centroid();
+
+		var marker = new L.Marker(new L.LatLng(center.x, center.y), { icon: gardenIcon });
+		marker.bindPopup("<b>"+g[1]+"</b><br><br>"+g[2]+"<br><br><a href='http://linz.pflueckt.at/#/garten/"+g[4]+"'>Details anzeigen</a>");
+		//markersArray.push(marker);
+		catGarden.addLayer(marker);
+	}
+	map.addLayer(catGarden);
 }
 
 function showLayers(layers) {
@@ -156,3 +212,65 @@ function showLayers(layers) {
 	}
 	map.addLayer(markers);
 }
+
+/* Calculate centroid of polygon*/
+/* https://stackoverflow.com/questions/16282330/find-centerpoint-of-polygon-in-javascript */
+
+function Point(x, y) {
+	this.x = x;
+	this.y = y;
+}
+
+function Region(points) {
+	this.points = points || [];
+	this.length = points.length;
+}
+
+Region.prototype.area = function () {
+	var area = 0,
+		i,
+		j,
+		point1,
+		point2;
+
+	for (i = 0, j = this.length - 1; i < this.length; j = i, i += 1) {
+		point1 = this.points[i];
+		point2 = this.points[j];
+		area += point1[0] * point2[1];
+		area -= point1[1] * point2[0];
+	}
+	area /= 2;
+
+	return area;
+};
+
+Region.prototype.centroid = function () {
+	var x = 0,
+		y = 0,
+		i,
+		j,
+		f,
+		point1,
+		point2;
+
+	for (i = 0, j = this.length - 1; i < this.length; j = i, i += 1) {
+		point1 = this.points[i];
+		point2 = this.points[j];
+		f = point1[0] * point2[1] - point2[0] * point1[1];
+		x += (point1[0] + point2[0]) * f;
+		y += (point1[1] + point2[1]) * f;
+	}
+
+	f = this.area() * 6;
+
+	return new Point(x / f, y / f);
+};
+
+function json2Array(coord) {
+	var coords = [];
+	for(var j=0; j<coord.length; j++) {
+		coords.push([coord[j].lat,coord[j].lng]);
+	}
+	return coords;
+}
+

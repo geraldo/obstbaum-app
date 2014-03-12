@@ -29,6 +29,17 @@ function getReife($date) {
 <article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
 	<header class="entry-header">
 
+		<!--<script type='text/javascript' src='http://linz.pflueckt.at/wp-content/plugins/comment-images/js/plugin.min.js?ver=3.5.1'></script>-->
+
+<?php
+echo '<script type="text/javascript">
+					jQuery(document).ready(function($) {
+						console.log("ok");
+						$("#commentform").attr("enctype", "multipart/form-data");
+					});
+					</script>';
+?>
+
 		<?php $id_value = get_post_meta(get_the_ID(), 'baumid', true); ?>
 
 		<h1 class="entry-title"><?php the_title(); echo ' [#'.$id_value."]"; ?></h1>
@@ -71,6 +82,10 @@ function getReife($date) {
 		<?php echo '<img style="float:right; margin-right:20px;" src="/static/leaflet051/images/leaf-'.get_post_meta(get_the_ID(), 'kat', true).'.png" />'; ?>
 
 		<?php 
+			//get values
+			$lat_value = get_post_meta(get_the_ID(), 'lat', true);
+			$long_value = get_post_meta(get_the_ID(), 'long', true);
+			$id_value2 = $id_value - 1;
 			//Gattung
 			$gattung_value = get_post_meta(get_the_ID(), 'gattung', true);
 			$art_value = get_post_meta(get_the_ID(), 'art', true);
@@ -96,65 +111,29 @@ function getReife($date) {
 			if($schirmdurchmesser_value != '' && $schirmdurchmesser_value != '.') echo "Schirmdurchmesser: " . $schirmdurchmesser_value . " m, "; 
 			//Stammumfang
 			$stammumfang_value = get_post_meta(get_the_ID(), 'stammumfang', true);
-			if($stammumfang_value != '' && $stammumfang_value != '.') echo "Stammumfang: " . $stammumfang_value . " cm</p>"; 
+			if($stammumfang_value != '' && $stammumfang_value != '.') echo "Stammumfang: " . $stammumfang_value . " cm</p><br />"; 
+
+			//Anzeigebutton
+			echo '<p><a class="abutton" href="'.esc_url( home_url( '/' ) ).'" onclick="map.setView(new L.LatLng('.$lat_value.','.$long_value.'), 18, false);map.on(\'zoomend\', function(e) {markersArray['.$id_value2.'].openPopup()});">Zeige #'.$id_value.'</a></p><br />';
 		
 			//Koordinaten
-			echo '<br /><p>Koordinaten:';
-			$lat_value = get_post_meta(get_the_ID(), 'lat', true);
-			$long_value = get_post_meta(get_the_ID(), 'long', true);
-			$id_value2 = $id_value - 1;
+			echo '<p>Koordinaten:';
 			if($lat_value != '' && $long_value != '') echo ' N ' . round($lat_value,5) . ' E ' . round($long_value,5);
-			echo '&nbsp; <a class="abutton" href="'.esc_url( home_url( '/' ) ).'" onclick="map.setView(new L.LatLng('.$lat_value.','.$long_value.'), 18, false);map.on(\'zoomend\', function(e) {markersArray['.$id_value2.'].openPopup()});">Zeige #'.$id_value.'</a></p>';
+
+			//URL
 			$url = 'http://'.$_SERVER["SERVER_NAME"].$_SERVER["REQUEST_URI"];
-			echo '<a href="'.$url.'">'.$url.'</a>';
+			echo '</p><p><a href="'.$url.'">'.$url.'</a></p>';
 		?>
 		</ul>
 
-		<div class="entry-meta">
-			<?php //obst_posted_on(); ?>
-		</div><!-- .entry-meta -->
 	</header><!-- .entry-header -->
 
 	<div class="entry-content">
 		<?php the_content(); ?>
-		<?php //wp_link_pages( array( 'before' => '<div class="page-links">' . __( 'Pages:', 'obst' ), 'after' => '</div>' ) ); ?>
 	</div><!-- .entry-content -->
 
 	<footer class="entry-meta">
-		<?php
-			/* translators: used between list items, there is a space after the comma */
-			$category_list = get_the_category_list( __( ', ', 'obst' ) );
-
-			/* translators: used between list items, there is a space after the comma */
-			$tag_list = get_the_tag_list( '', __( ', ', 'obst' ) );
-
-			if ( ! obst_categorized_blog() ) {
-				// This blog only has 1 category so we just need to worry about tags in the meta text
-				if ( '' != $tag_list ) {
-					$meta_text = __( 'This entry was tagged %2$s. Bookmark the <a href="%3$s" title="Permalink to %4$s" rel="bookmark">permalink</a>.', 'obst' );
-				} else {
-					$meta_text = __( 'Bookmark the <a href="%3$s" title="Permalink to %4$s" rel="bookmark">permalink</a>.', 'obst' );
-				}
-
-			} else {
-				// But this blog has loads of categories so we should probably display them here
-				if ( '' != $tag_list ) {
-					$meta_text = __( 'This entry was posted in %1$s and tagged %2$s. Bookmark the <a href="%3$s" title="Permalink to %4$s" rel="bookmark">permalink</a>.', 'obst' );
-				} else {
-					$meta_text = __( 'This entry was posted in %1$s. Bookmark the <a href="%3$s" title="Permalink to %4$s" rel="bookmark">permalink</a>.', 'obst' );
-				}
-
-			} // end check for categories on this blog
-
-			/*printf(
-				$meta_text,
-				$category_list,
-				$tag_list,
-				get_permalink(),
-				the_title_attribute( 'echo=0' )
-			);*/
-		?>
-
 		<?php edit_post_link( __( 'Edit', 'obst' ), '<span class="edit-link">', '</span>' ); ?>
+
 	</footer><!-- .entry-meta -->
 </article><!-- #post-## -->
