@@ -1,21 +1,28 @@
 function loadMap() {
-	var cloudmadeUrl = 'http://{s}.tile.cloudmade.com/60ec3a9d598e4c919b3ceda2344e0b19/94190/256/{z}/{x}/{y}.png',
-		cloudmadeAttribution = 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://cloudmade.com">CloudMade</a>',
-		cloudmade = new L.TileLayer(cloudmadeUrl, {maxZoom: 18, attribution: cloudmadeAttribution}),
-		latlng = new L.LatLng(48.30, 14.30);
+	var mapboxTiles = L.tileLayer('https://{s}.tiles.mapbox.com/v3/geraldo.map-cekfhhly/{z}/{x}/{y}.png');
+	var mapboxSatellite = L.tileLayer('https://{s}.tiles.mapbox.com/v3/geraldo.hej3b3ge/{z}/{x}/{y}.png');
+	var mapboxTerrain = L.tileLayer('https://{s}.tiles.mapbox.com/v3/geraldo.hej56206/{z}/{x}/{y}.png');
+	var center = new L.LatLng(48.30, 14.30);
 
-	var map = new L.Map('map', {center: latlng, zoom: 13, layers: [cloudmade]});
+	var map = new L.Map('map', {center: center, zoom: 13, layers: [mapboxTiles]});
+
+	var baseMaps = {
+		"Standard": mapboxTiles,
+		"Terrain": mapboxTerrain,
+		"Satellit": mapboxSatellite
+	};
+	L.control.layers(baseMaps, null, {position: 'topleft'}).addTo(map);
 
 	var markers = new L.MarkerClusterGroup();
 
 	var greenIcon = L.icon({
 		iconUrl: 'leaflet051/images/leaf-green.png',
 		shadowUrl: 'leaflet051/images/leaf-shadow.png',
-		iconSize:     [38, 95], // size of the icon
-		shadowSize:   [50, 64], // size of the shadow
-		iconAnchor:   [22, 94], // point of the icon which will correspond to marker's location
-		shadowAnchor: [4, 62],  // the same for the shadow
-		popupAnchor:  [-3, -76] // point from which the popup should open relative to the iconAnchor
+		iconSize:     [38, 95],
+		shadowSize:   [50, 64],
+		iconAnchor:   [22, 94],
+		shadowAnchor: [4, 62],
+		popupAnchor:  [-3, -76]
 	});
 	var apfelIcon = L.icon({
 		iconUrl: 'leaflet051/images/leaf-Apfel.png',
@@ -90,5 +97,81 @@ function loadMap() {
 		title: "Zeige mir meinen aktuellen Standpunkt",
 		popupText: ["Du bist im Umkreis von ", " von diesem Punkt."],
 	}).addTo(map);
+
+	var obstbaumgarten1 = L.polygon([
+		[48.30132, 14.26418],
+		[48.30278, 14.26275],
+		[48.30243, 14.2622],
+		[48.30195, 14.26269],
+		[48.30166, 14.26354]
+	], {
+		color: 'red',
+	    fillColor: '#f03',
+		fillOpacity: 0.6
+	}).addTo(map);
+	obstbaumgarten1.bindPopup("<b>Obstbaumgarten Margarethen am Freinberg</b><br><br>Angelegt 1998<br>Größe 7.700 m²<br>ca. 100 Bäume<br><br><a href='http://linz.pflueckt.at/#/obstbaumgarten-margarethenweg/'>Details anzeigen</a>");
+
+	var obstbaumgarten2 = L.polygon([
+		[48.27878, 14.29093],
+		[48.27858, 14.29093],
+		[48.27862, 14.29128],
+		[48.27886, 14.29157],
+		[48.27897, 14.29145]
+	], {
+		color: 'red',
+	    fillColor: '#f03',
+		fillOpacity: 0.6
+	}).addTo(map);
+	obstbaumgarten2.bindPopup("<b>Obstbaumgarten Hummelhofwald</b><br><br>Angelegt 2007<br>Größe 1.500 m²");
+
+	var obstbaumgarten3 = L.polygon([
+		[48.33427, 14.30074],
+		[48.33425, 14.30089],
+		[48.33463, 14.30085],
+		[48.33476, 14.30115],
+		[48.33484, 14.30075]
+	], {
+		color: 'red',
+	    fillColor: '#f03',
+		fillOpacity: 0.6
+	}).addTo(map);
+	obstbaumgarten3.bindPopup("<b>Obstbaumgarten Feuerwache Nord</b><br><br>Angelegt 2008<br>Größe 450 m²");
+
+	var obstbaumgarten4 = L.polygon([
+		[48.33475, 14.3049],
+		[48.33484, 14.305],
+		[48.33515, 14.30421],
+		[48.33498, 14.30409]
+	], {
+		color: 'red',
+	    fillColor: '#f03',
+		fillOpacity: 0.6
+	}).addTo(map);
+	obstbaumgarten4.bindPopup("<b>Obstbaumgarten Biesenfeld</b><br><br>Angelegt 2009<br>Größe 1.000 m²");
+
+	var obstbaumgarten5 = L.polygon([
+		[48.33832, 14.28993],
+		[48.33818, 14.28944],
+		[48.33905, 14.28878],
+		[48.33914, 14.28892],
+		[48.33952, 14.28901],
+		[48.33974, 14.28954],
+		[48.33931, 14.28949],
+		[48.33889, 14.28959]
+	], {
+		color: 'red',
+	    fillColor: '#f03',
+		fillOpacity: 0.6
+	}).addTo(map);
+	obstbaumgarten5.bindPopup("<b>Obstbaumgarten Kampmüllerweg</b><br><br>Angelegt 2013<br>Größe 11.000 m²");
+
+	var popup = L.popup();
+	function onMapClick(e) {
+		popup
+		    .setLatLng(e.latlng)
+		    .setContent("You clicked the map at " + e.latlng.toString())
+		    .openOn(map);
+	}
+	map.on('click', onMapClick);
 }
 
